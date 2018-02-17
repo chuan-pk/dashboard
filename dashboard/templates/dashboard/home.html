@@ -5,19 +5,25 @@
 <body>
     <h1>Todo list</h1>
 
-    <form>
+    <form method="POST">
         <input name="todo_text" id="new_todo" placeholder="Enter a to-do item">
         <input type="date" name="date_picker" id="date_picker" placeholder="Select date">
 
-        <select name="priority_picker" id="priority_picker" list="priority_list">
-        <datalist id='priority_list'>
+        <select name="priority" id="priority">
             <option value="" disabled selected>Select Priority</option>
             <option value="High">High</ghoption>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
-        </datalist>
         </select>
     </form>
 
+    <table id="todo_table">
+        <tr><td>Do Something</td></tr>
+    </table>
+
+    <h1>Complete</h1>
+    <table id="complete_table">
+        <tr><td>Complete</td></tr>
+    </table>
 
 </html>

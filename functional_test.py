@@ -1,6 +1,9 @@
 from selenium import webdriver 
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.select import Select
 import unittest
 import time
+
 
 class ToDoListTest(unittest.TestCase):
     """
@@ -28,25 +31,27 @@ class ToDoListTest(unittest.TestCase):
 
         ## check only to-do list 
         ## Dashboard will comming soon
-        ## input : text, date&time picker, priority
+        ## input : text, date&time picker, priority, submit button
         ## in progress : subject tag?
 
         # He notices the to-do list app header and input
-        todo_header = self.browser.find_element_by_tag_name('h1').text
+        ## HARD CODE !!!
+        todo_header = self.browser.find_elements_by_tag_name('h1')[0].text
         self.assertIn('Todo', todo_header)
-        
+        # He notices the complete list header
+        complete_header = self.browser.find_elements_by_tag_name('h1')[1].text
+        self.assertIn('Complete', complete_header)
+
         # He look at the input of to-do item title
         todo_text = self.browser.find_element_by_id('new_todo')
-        self.assertEqual(
-            todo_text.get_attribute('placeholder'), 'Enter a to-do item'
-            )
+        self.assertEqual(todo_text.get_attribute('placeholder'), 'Enter a to-do item')
+
         # He look at the date picker
         date_picker = self.browser.find_element_by_id('date_picker')
-        self.assertEqual(
-            date_picker.get_attribute('placeholder'), 'Select date'
-            )
+        self.assertEqual(date_picker.get_attribute('placeholder'), 'Select date')
+
         # He look at the priority picker
-        priority_picker = self.browser.find_element_by_id('priority_picker')
+        priority_picker = self.browser.find_element_by_id('priority')
         # click on it and it will show the priority option High Medium and Low
         priority_list = self.browser.find_elements_by_tag_name('option')
         priority_value_list = [item.get_attribute('value') for item in priority_list]
@@ -56,7 +61,18 @@ class ToDoListTest(unittest.TestCase):
         ## smoke test of selet list 
         # self.assertIn('Wadu', priority_value_list)
 
-        self.fail("Finish The Test")
+
+        # John try to add new to do list and he will see the item in to-do 
+        # enter the text, select date, select priority
+        # and submit
+        todo_text.send_keys('Do Analog Assignment')
+        ## cant input date picker and priority by key
+        date_picker.value = '2018-11-13'
+        priority_picker.value = 'High'
+
+        table = self.browser.find_element_by_id('todo_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('Analog Assignment', [row.text for row in rows])
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
