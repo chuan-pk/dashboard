@@ -6,8 +6,8 @@
     <h1>Todo list</h1>
 
     <form method="POST">
-        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item">
-        <input type="date" name="date_picker" id="date_picker" placeholder="Select date">
+        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item" /> 
+        <input type="date" name="date_picker" id="date_picker" placeholder="Select date"/>
 
         <select name="priority" id="priority">
             <option value="" disabled selected>Select Priority</option>
@@ -15,15 +15,17 @@
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
         </select>
+    {% csrf_token %}
     </form>
 
     <table id="todo_table">
-        <tr><td>Do Something</td></tr>
+        <tr><td># Do Something    Date: dd/mm/yyyy   submit/delete</td></tr>
+        <tr><td>{{ new_todo_text }}    Date: dd/mm/yyyy   submit/delete</td></tr>
     </table>
 
     <h1>Complete</h1>
     <table id="complete_table">
-        <tr><td>Complete</td></tr>
+        <tr><td># Complete    Date: dd/mm/yyyy   submit/delete</td></tr>
     </table>
 
 </html>

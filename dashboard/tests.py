@@ -12,3 +12,8 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertTemplateUsed(response, 'dashboard/home.html')
+
+    def test_can_save_post_reques(self):
+        response = self.client.post('/', data={'todo_text':'A new todo item', 'date_picker':'2018-03-13', 'priority':'Low'})
+        self.assertIn('A new todo item', response.content.decode())
+        self.assertTemplateUsed(response, 'dashboard/home.html')

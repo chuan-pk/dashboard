@@ -35,12 +35,13 @@ class ToDoListTest(unittest.TestCase):
         ## in progress : subject tag?
 
         # He notices the to-do list app header and input
-        ## HARD CODE !!!
-        todo_header = self.browser.find_elements_by_tag_name('h1')[0].text
-        self.assertIn('Todo', todo_header)
-        # He notices the complete list header
-        complete_header = self.browser.find_elements_by_tag_name('h1')[1].text
-        self.assertIn('Complete', complete_header)
+        h1_list = [i.text for i in self.browser.find_elements_by_tag_name('h1')]
+        self.assertTrue(
+            any('Todo' in i for i in h1_list), 'Todo no found in' + str(h1_list)
+            )
+        self.assertTrue(
+            any('Complete' in i for i in h1_list), 'Complete not found in' + str(h1_list)
+            )
 
         # He look at the input of to-do item title
         todo_text = self.browser.find_element_by_id('new_todo')
@@ -67,12 +68,20 @@ class ToDoListTest(unittest.TestCase):
         # and submit
         todo_text.send_keys('Do Analog Assignment')
         ## cant input date picker and priority by key
-        date_picker.value = '2018-11-13'
-        priority_picker.value = 'High'
+        todo_text.send_keys(Keys.ENTER)
+        # self.date_picker.set_Attribute('value') = '2018-11-13'
+        # self.priority_picker.set_Attribute('value') = 'High'
+        time.sleep(1)
 
+ 
         table = self.browser.find_element_by_id('todo_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('Analog Assignment', [row.text for row in rows])
+        self.assertTrue(
+            any('Do Analog Assignment' in i for i in [row.text for row in rows] )
+            )
+
+
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
