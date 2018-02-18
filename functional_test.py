@@ -14,12 +14,12 @@ class ToDoListTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome(executable_path=r"D:\chromedriver.exe")
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
         time.sleep(2)
-        self.browser.quit() 
+        self.browser.quit()
 
     def test_can_display_todo_list(self):
         # Student name : John Doe 
@@ -62,17 +62,22 @@ class ToDoListTest(unittest.TestCase):
         ## smoke test of selet list 
         # self.assertIn('Wadu', priority_value_list)
 
+        submit_btn = self.browser.find_element_by_id('submit')
+
 
         # John try to add new to do list and he will see the item in to-do 
         # enter the text, select date, select priority
         # and submit
         todo_text.send_keys('Do Analog Assignment')
-        ## cant input date picker and priority by key
-        todo_text.send_keys(Keys.ENTER)
-        # self.date_picker.set_Attribute('value') = '2018-11-13'
-        # self.priority_picker.set_Attribute('value') = 'High'
         time.sleep(1)
 
+        date_picker.send_keys('22-02-2018')
+        time.sleep(1)
+
+        priority_picker.send_keys('High')
+        time.sleep(1)
+
+        submit_btn.send_keys(Keys.ENTER)
  
         table = self.browser.find_element_by_id('todo_table')
         rows = table.find_elements_by_tag_name('tr')
@@ -82,6 +87,7 @@ class ToDoListTest(unittest.TestCase):
 
 
 
+        #self.fail('Finish the test!')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')

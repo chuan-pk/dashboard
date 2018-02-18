@@ -15,12 +15,20 @@
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
         </select>
+        <button id="submit">Submit</button>
     {% csrf_token %}
     </form>
 
     <table id="todo_table">
-        <tr><td># Do Something    Date: dd/mm/yyyy   submit/delete</td></tr>
-        <tr><td>{{ new_todo_text }}    Date: dd/mm/yyyy   submit/delete</td></tr>
+        <tr>
+            <td># Do Something</td>    
+            <td>Date: dd/mm/yyyy</td> 
+            <td>submit/delete</td>
+        </tr>
+        <tr>
+            <td>{{ new_todo_text }}</td>    
+            <td>{{ date_text }}</td>   
+            <td></td></tr>
     </table>
 
     <h1>Complete</h1>

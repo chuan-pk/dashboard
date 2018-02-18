@@ -1,8 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
+from datetime import datetime
 
-# Create your views here.
 def home_page(request):
-    return render(request, 'dashboard/home.html', {
-            'new_todo_text':request.POST.get('todo_text', '')
-        })
+    form_date = request.POST.get('date_picker')
+    # change format here
+
+    return render(request, 'dashboard/home.html',{
+        'new_todo_text': request.POST.get('todo_text',''),
+        'date_text': form_date,
+    })
