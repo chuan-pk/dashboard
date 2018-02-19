@@ -1,4 +1,4 @@
-from selenium import webdriver 
+from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 import unittest
@@ -10,11 +10,11 @@ class ToDoListTest(unittest.TestCase):
     Dashboard Todo list test
     app name: Dashboard
     # = story
-    ## = programmer's comment 
+    ## = programmer's comment
     """
 
     def setUp(self):
-        self.browser = webdriver.Chrome(executable_path=r"D:\chromedriver.exe")
+        self.browser = webdriver.Chrome()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
@@ -22,14 +22,14 @@ class ToDoListTest(unittest.TestCase):
         self.browser.quit()
 
     def test_can_display_todo_list(self):
-        # Student name : John Doe 
+        # Student name : John Doe
         # John Doe go to Student Dashboard web app
         # He notices the web app title
 
         self.browser.get('http://localhost:8000/')
         self.assertIn('Dashboard', self.browser.title)
 
-        ## check only to-do list 
+        ## check only to-do list
         ## Dashboard will comming soon
         ## input : text, date&time picker, priority, submit button
         ## in progress : subject tag?
@@ -59,26 +59,27 @@ class ToDoListTest(unittest.TestCase):
         self.assertIn('High', priority_value_list)
         self.assertIn('Medium', priority_value_list)
         self.assertIn('Low', priority_value_list)
-        ## smoke test of selet list 
+        ## smoke test of selet list
         # self.assertIn('Wadu', priority_value_list)
 
         submit_btn = self.browser.find_element_by_id('submit')
 
 
-        # John try to add new to do list and he will see the item in to-do 
+        # John try to add new to do list and he will see the item in to-do
         # enter the text, select date, select priority
         # and submit
         todo_text.send_keys('Do Analog Assignment')
         time.sleep(1)
 
-        date_picker.send_keys('22-02-2018')
+        #date_picker.send_keys('22-02-2018')
+        date_picker.send_keys('02-22-2018')
         time.sleep(1)
 
         priority_picker.send_keys('High')
         time.sleep(1)
 
         submit_btn.send_keys(Keys.ENTER)
- 
+
         table = self.browser.find_element_by_id('todo_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
