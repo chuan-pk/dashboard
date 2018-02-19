@@ -14,7 +14,7 @@ class ToDoListTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.browser = webdriver.Chrome(executable_path=r"D:\chromedriver.exe")
+        self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
@@ -69,13 +69,15 @@ class ToDoListTest(unittest.TestCase):
         # enter the text, select date, select priority
         # and submit
         todo_text.send_keys('Do Analog Assignment')
-        time.sleep(1)
+        time.sleep(0.2)
 
-        date_picker.send_keys('22-02-2018')
-        time.sleep(1)
+        date_picker.click()
+        time.sleep(0.01)
+        date_picker.send_keys('2018-02-13')
+        time.sleep(3)
 
         priority_picker.send_keys('High')
-        time.sleep(1)
+        time.sleep(0.2)
 
         submit_btn.send_keys(Keys.ENTER)
  
@@ -87,7 +89,7 @@ class ToDoListTest(unittest.TestCase):
 
 
 
-        #self.fail('Finish the test!')
+        self.fail('Finish the test!')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')

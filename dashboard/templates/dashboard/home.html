@@ -19,21 +19,36 @@
     {% csrf_token %}
     </form>
 
-    <table id="todo_table">
+    <table id="todo_table" width="50%">
         <tr>
-            <td># Do Something</td>    
-            <td>Date: dd/mm/yyyy</td> 
-            <td>submit/delete</td>
+            <th width="10%">Text</th>    
+            <th width="10%">Date</th>
+            <th width="10%">Priority</th> 
+            <th width="10%">Button</th>
         </tr>
         <tr>
             <td>{{ new_todo_text }}</td>    
             <td>{{ date_text }}</td>   
-            <td></td></tr>
+            <td>{{ priority }}</td>
+            <td> submit, delete</td>
+        </tr>
     </table>
 
     <h1>Complete</h1>
-    <table id="complete_table">
-        <tr><td># Complete    Date: dd/mm/yyyy   submit/delete</td></tr>
+    <table id="complete_table" width="50%">
+        <tr>
+            <th width="10%">Text</th>    
+            <th width="10%">Date</th>
+            <th width="10%">Priority</th> 
+            <th width="10%">Button</th>
+        </tr>
+        <tr>
+            <td>dummy complete</td>    
+            <td>dd mm yyyy</td>   
+            <td>Low</td>
+            <td> unsubmit, delete</td>
+        </tr>
+
     </table>
 
 </html>
