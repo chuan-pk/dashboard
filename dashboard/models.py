@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class Todolist(models.Model):
+    text = models.TextField(default='')
+    date = models.TextField(default='')
+    prio = models.TextField(default='')

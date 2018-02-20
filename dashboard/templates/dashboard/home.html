@@ -26,12 +26,14 @@
             <th width="10%">Priority</th> 
             <th width="10%">Button</th>
         </tr>
+        {% for item in todo %}
         <tr>
-            <td>{{ new_todo_text }}</td>    
-            <td>{{ date_text }}</td>   
-            <td>{{ priority }}</td>
+            <td>{{ item.text }}</td>    
+            <td>{{ item.date }}</td>   
+            <td>{{ item.prio }}</td>
             <td> submit, delete</td>
         </tr>
+        {% endfor %}
     </table>
 
     <h1>Complete</h1>
