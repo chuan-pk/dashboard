@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import resolve
 from dashboard import views as dashboard_views
 from dashboard.models import Todolist
+from selenium import webdriver 
 
 class HomePageTest(TestCase):
 
@@ -33,6 +34,16 @@ class HomePageTest(TestCase):
         self.assertIn('itemey 1', response.content.decode())
         self.assertIn('itemey 2', response.content.decode())
 
+    def test_btn_delete(self):
+        First_todo = Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
+        Secound_todo = Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
+
+        response = self.client.post(f'/delete_item/{First_todo.id}')
+
+        
+        self.assertEqual(len(Todolist.objects.all()), 1)
+        self.assertEqual(Todolist.objects.all()[0], Secound_todo)
+
 class ItemModelTest(TestCase):
 
     def test_saving_and_retrieving_items(self):
@@ -61,3 +72,12 @@ class ItemModelTest(TestCase):
         self.assertEqual(second_saved_item.text, 'Item the second')
         self.assertEqual(second_saved_item.date, '2018-02-26')
         self.assertEqual(second_saved_item.prio, 'Low')
+
+    def test_can_delete_item(self):
+        Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
+        Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
+
+        saved_items = Todolist.objects.all()
+        saved_items[0].delete()
+
+        self.assertEqual(Todolist.objects.count(), 1)

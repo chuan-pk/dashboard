@@ -6,10 +6,10 @@
     <h1>Todo list</h1>
 
     <form method="POST">
-        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item" required="" /> 
-        <input type="date" name="date_picker" id="date_picker" placeholder="Select date" required="" />
+        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item" /> 
+        <input type="date" name="date_picker" id="date_picker" placeholder="Select date" />
 
-        <select name="priority" id="priority" required="">
+        <select name="priority" id="priority" >
             <option value="" disabled selected>Select Priority</option>
             <option value="High">High</ghoption>
             <option value="Medium">Medium</option>
@@ -32,8 +32,13 @@
             <td>{{ item.date }}</td>   
             <td>{{ item.prio }}</td>
             <td>
-               <button name={{item.id}} id="submit" value={{itme.id}}>Submit</button> 
-               <button name={{item.id}} id="delete" value={{itme.id}}>Delete</button>
+                
+                <button name={{item.id}} id="submit" value={{itme.id}}>Submit</button> 
+                
+                <form method="POST" action="/delete_item/{{ item.id }}">
+                    <button name={{item.id}} id="delete" onclick="delete_item({{ item.id }})">Delete</button>
+                {% csrf_token %}
+                </form>
             </td>
         </tr>
         {% endfor %}

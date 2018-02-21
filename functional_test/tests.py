@@ -5,6 +5,8 @@ from django.test import LiveServerTestCase
 import time
 from dashboard.models import Todolist
 
+from django.urls import resolve
+
 
 class ToDoListTest(LiveServerTestCase):
     """
@@ -93,7 +95,7 @@ class ToDoListTest(LiveServerTestCase):
             any(i.get_attribute('name') == str(first_item.id) for i in delete_button_list)
             )
 
-        # John enter another todo item
+        # John enter another todo item but he fogot to chose Priority
         ## get all element to input
         todo_text = self.browser.find_element_by_id('new_todo')
         date_picker = self.browser.find_element_by_id('date_picker')
@@ -108,9 +110,7 @@ class ToDoListTest(LiveServerTestCase):
         add_btn.send_keys(Keys.ENTER)
         time.sleep(1)
 
-
-        # John look at todo list
-        # and He see 2 items
+        # John look at todo list and He see 2 items
         # 'Do assignment' and 'Ubi com project'
         # each item have 2 button submit and delete
         table = self.browser.find_element_by_id('todo_table')
@@ -137,6 +137,7 @@ class ToDoListTest(LiveServerTestCase):
             any('Low' in i for i in [row.text for row in rows]), rows_texts
             )
 
+        ## Check each object its has own button
         saved_todo = Todolist.objects.all()
         first_item = saved_todo[0]
         submit_button_list = self.browser.find_elements_by_id('submit')
@@ -158,6 +159,28 @@ class ToDoListTest(LiveServerTestCase):
             any(i.get_attribute('name') == str(second_item.id) for i in delete_button_list)
             )
         
+        # John need to remove 'Do analog assignment' 
+        # He won't see it anymore
+        first_delete_btn = delete_button_list[0]
+        first_delete_btn.click()
+
+        table = self.browser.find_element_by_id('todo_table')
+        rows = table.find_elements_by_tag_name('tr')
+        rows_texts = [row.text for row in rows]
+
+        self.assertFalse(
+            any('Do Analog Assignment' in i for i in  rows_texts), rows_texts
+            )
+        self.assertFalse(
+            any('2018-02-13' in i for i in [row.text for row in rows]), rows_texts
+            )
+        self.assertFalse(
+            any('High' in i for i in [row.text for row in rows]), rows_texts
+            )
+
+        # John add 'Network assignment','2018-02-28' 
+        # He foget choose 'Priority'
+        #...
 
         self.fail('Finish the test!')
 
