@@ -6,16 +6,16 @@
     <h1>Todo list</h1>
 
     <form method="POST">
-        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item" /> 
-        <input type="date" name="date_picker" id="date_picker" placeholder="Select date"/>
+        <input name="todo_text" id="new_todo" placeholder="Enter a to-do item" required="" /> 
+        <input type="date" name="date_picker" id="date_picker" placeholder="Select date" required="" />
 
-        <select name="priority" id="priority">
+        <select name="priority" id="priority" required="">
             <option value="" disabled selected>Select Priority</option>
             <option value="High">High</ghoption>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
         </select>
-        <button id="submit">Submit</button>
+        <button id="Add">Add</button>
     {% csrf_token %}
     </form>
 
@@ -31,7 +31,10 @@
             <td>{{ item.text }}</td>    
             <td>{{ item.date }}</td>   
             <td>{{ item.prio }}</td>
-            <td> submit, delete</td>
+            <td>
+               <button name={{item.id}} id="submit" value={{itme.id}}>Submit</button> 
+               <button name={{item.id}} id="delete" value={{itme.id}}>Delete</button>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -48,7 +51,10 @@
             <td>dummy complete</td>    
             <td>dd mm yyyy</td>   
             <td>Low</td>
-            <td> unsubmit, delete</td>
+            <td> 
+                <button name={{item.id}} id="unsubmit" value={{itme.id}}>Unsubmit</button> 
+               <button name={{item.id}} id="delete" value={{itme.id}}>Delete</button>
+            </td>
         </tr>
 
     </table>

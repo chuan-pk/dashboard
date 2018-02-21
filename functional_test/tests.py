@@ -1,11 +1,12 @@
 from selenium import webdriver 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-import unittest
+from django.test import LiveServerTestCase
 import time
+from dashboard.models import Todolist
 
 
-class ToDoListTest(unittest.TestCase):
+class ToDoListTest(LiveServerTestCase):
     """
     Dashboard Todo list test
     # = story
@@ -24,7 +25,7 @@ class ToDoListTest(unittest.TestCase):
         # John H. Watson go to Student Dashboard web app
         # He notices the web app title
 
-        self.browser.get('http://localhost:8000/')
+        self.browser.get(self.live_server_url)
         self.assertIn('Dashboard', self.browser.title)
 
         # He notices the to-do list app header and input
@@ -52,17 +53,17 @@ class ToDoListTest(unittest.TestCase):
         self.assertIn('Low', priority_value_list)
         ## smoke test of selet list 
         # self.assertIn('Wadu', priority_value_list)
-        submit_btn = self.browser.find_element_by_id('submit')
+        add_btn = self.browser.find_element_by_id('Add')
 
 
         # John add new todo item
         # He enter the text, select date, select priority
-        # and submit
+        # and click add button to add his todo list
         todo_text.send_keys('Do Analog Assignment')
         date_picker.click()
         date_picker.send_keys('2018-02-13')
         priority_picker.send_keys('High')
-        submit_btn.send_keys(Keys.ENTER)
+        add_btn.send_keys(Keys.ENTER)
         time.sleep(1)
 
         # He see the todo item in todo list
@@ -78,27 +79,40 @@ class ToDoListTest(unittest.TestCase):
         self.assertTrue(
             any('High' in i for i in [row.text for row in rows] )
             )
-
+        # and see the submit and delete button of each list
+        saved_todo = Todolist.objects.all()
+        first_item = saved_todo[0]
+        ## each to do list should have 2 type of button submit. delete
+        ## and have unique id
+        submit_button_list = self.browser.find_elements_by_id('submit')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(first_item.id) for i in submit_button_list)
+            )
+        delete_button_list = self.browser.find_elements_by_id('delete')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(first_item.id) for i in delete_button_list)
+            )
 
         # John enter another todo item
         ## get all element to input
         todo_text = self.browser.find_element_by_id('new_todo')
         date_picker = self.browser.find_element_by_id('date_picker')
         priority_picker = self.browser.find_element_by_id('priority')
-        submit_btn = self.browser.find_element_by_id('submit')
+        add_btn = self.browser.find_element_by_id('Add')
 
         todo_text.send_keys('Think about Ubi.Com. project')
 
         date_picker.click()
         date_picker.send_keys('2018-02-27')
         priority_picker.send_keys('Low')
-        submit_btn.send_keys(Keys.ENTER)
+        add_btn.send_keys(Keys.ENTER)
         time.sleep(1)
 
 
         # John look at todo list
         # and He see 2 items
         # 'Do assignment' and 'Ubi com project'
+        # each item have 2 button submit and delete
         table = self.browser.find_element_by_id('todo_table')
         rows = table.find_elements_by_tag_name('tr')
         rows_texts = [row.text for row in rows]
@@ -123,8 +137,30 @@ class ToDoListTest(unittest.TestCase):
             any('Low' in i for i in [row.text for row in rows]), rows_texts
             )
 
+        saved_todo = Todolist.objects.all()
+        first_item = saved_todo[0]
+        submit_button_list = self.browser.find_elements_by_id('submit')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(first_item.id) for i in submit_button_list)
+            )
+        delete_button_list = self.browser.find_elements_by_id('delete')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(first_item.id) for i in delete_button_list)
+            )
+
+        second_item = saved_todo[1]
+        submit_button_list = self.browser.find_elements_by_id('submit')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(second_item.id) for i in submit_button_list)
+            )
+        delete_button_list = self.browser.find_elements_by_id('delete')
+        self.assertTrue(
+            any(i.get_attribute('name') == str(second_item.id) for i in delete_button_list)
+            )
+        
 
         self.fail('Finish the test!')
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
