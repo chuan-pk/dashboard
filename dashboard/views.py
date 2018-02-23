@@ -5,9 +5,9 @@ from dashboard.models import Todolist
 def home_page(request):
 
     if request.method == 'POST':
-        todo_text = request.POST.get('todo_text','')
-        todo_date = request.POST.get('date_picker','')
-        todo_prio = request.POST.get('priority','')
+        todo_text = request.POST.get('todo_text', '')
+        todo_date = request.POST.get('date_picker', '')
+        todo_prio = request.POST.get('priority', '')
 
         Todolist.objects.create(text=todo_text, date=todo_date, prio=todo_prio)
         return redirect('/')

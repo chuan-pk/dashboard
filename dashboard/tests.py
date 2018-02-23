@@ -25,16 +25,16 @@ class HomePageTest(TestCase):
         self.client.get('/')
         self.assertEqual(Todolist.objects.count(), 0)
 
-    def test_displays_all_list_items(self):
-        Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
-        Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
+    # def test_displays_all_list_items(self):
+    #     Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
+    #     Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
 
-        response = self.client.get('/')
+    #     response = self.client.get('/')
 
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
+    #     self.assertIn('itemey 1', response.content.decode())
+    #     self.assertIn('itemey 2', response.content.decode())
 
-    def test_btn_delete(self):
+    def test_homepage_can_delete_item(self):
         First_todo = Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
         Secound_todo = Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
 
@@ -81,3 +81,5 @@ class ItemModelTest(TestCase):
         saved_items[0].delete()
 
         self.assertEqual(Todolist.objects.count(), 1)
+
+ 

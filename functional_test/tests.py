@@ -4,7 +4,6 @@ from selenium.webdriver.support.select import Select
 from django.test import LiveServerTestCase
 import time
 from dashboard.models import Todolist
-
 from django.urls import resolve
 
 
@@ -23,7 +22,16 @@ class ToDoListTest(LiveServerTestCase):
         time.sleep(2)
         self.browser.quit()
 
-    def test_can_display_todo_list(self): 
+    def test_can_display_todo_list(self):
+
+        """
+        # this test will test ...
+            # add item and can see it
+            # add mutiple item and can see all item
+            # delete item ....
+        """
+
+
         # John H. Watson go to Student Dashboard web app
         # He notices the web app title
 
@@ -72,15 +80,11 @@ class ToDoListTest(LiveServerTestCase):
         table = self.browser.find_element_by_id('todo_table')
         rows = table.find_elements_by_tag_name('tr')
         rows_texts = [row.text for row in rows]
+        ## check the row that contain 'Do analog..' '2018 ..' 'High' in same row
         self.assertTrue(
-            any('Do Analog Assignment' in i for i in  rows_texts)
+            any(('Do Analog Assignment' and '2018-02-13' and 'High') in i for i in  rows_texts)
             )
-        self.assertTrue(
-            any('2018-02-13' in i for i in [row.text for row in rows] )
-            )
-        self.assertTrue(
-            any('High' in i for i in [row.text for row in rows] )
-            )
+
         # and see the submit and delete button of each list
         saved_todo = Todolist.objects.all()
         first_item = saved_todo[0]
@@ -95,7 +99,7 @@ class ToDoListTest(LiveServerTestCase):
             any(i.get_attribute('name') == str(first_item.id) for i in delete_button_list)
             )
 
-        # John enter another todo item but he fogot to chose Priority
+        # John enter another todo item
         ## get all element to input
         todo_text = self.browser.find_element_by_id('new_todo')
         date_picker = self.browser.find_element_by_id('date_picker')
@@ -118,23 +122,11 @@ class ToDoListTest(LiveServerTestCase):
         rows_texts = [row.text for row in rows]
 
         self.assertTrue(
-            any('Do Analog Assignment' in i for i in  rows_texts), rows_texts
-            )
-        self.assertTrue(
-            any('2018-02-13' in i for i in [row.text for row in rows]), rows_texts
-            )
-        self.assertTrue(
-            any('High' in i for i in [row.text for row in rows]), rows_texts
+            any('Do Analog Assignment' and '2018-02-13' and 'High' in i for i in  rows_texts), rows_texts
             )
 
         self.assertTrue(
-            any('Think about Ubi.Com. project' in i for i in  rows_texts), rows_texts
-            )
-        self.assertTrue(
-            any('2018-02-27' in i for i in [row.text for row in rows]), rows_texts
-            )
-        self.assertTrue(
-            any('Low' in i for i in [row.text for row in rows]), rows_texts
+            any('Think about Ubi.Com. project' and '2018-02-27' and 'Low' in i for i in  rows_texts), rows_texts
             )
 
         ## Check each object its has own button
@@ -178,9 +170,6 @@ class ToDoListTest(LiveServerTestCase):
             any('High' in i for i in [row.text for row in rows]), rows_texts
             )
 
-        # John add 'Network assignment','2018-02-28' 
-        # He foget choose 'Priority'
-        #...
 
         self.fail('Finish the test!')
 
