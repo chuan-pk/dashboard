@@ -25,14 +25,14 @@ class HomePageTest(TestCase):
         self.client.get('/')
         self.assertEqual(Todolist.objects.count(), 0)
 
-    # def test_displays_all_list_items(self):
-    #     Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
-    #     Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
+    def test_displays_all_list_items(self):
+        Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
+        Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
 
-    #     response = self.client.get('/')
+        response = self.client.get('/')
 
-    #     self.assertIn('itemey 1', response.content.decode())
-    #     self.assertIn('itemey 2', response.content.decode())
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
 
     def test_homepage_can_delete_item(self):
         First_todo = Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
@@ -43,6 +43,28 @@ class HomePageTest(TestCase):
         
         self.assertEqual(len(Todolist.objects.all()), 1)
         self.assertEqual(Todolist.objects.all()[0], Secound_todo)
+
+    def test_dont_save_blank_todo(self):
+
+        response = self.client.post('/', data={'todo_text': '', 'date_picker':'2018-02-27'})
+
+        saved_items = Todolist.objects.all()
+        self.assertEqual(saved_items.count(), 0)
+
+
+    def test_homepage_can_submit_and_unsubmit_item(self):
+        first_todo = Todolist.objects.create(text='itemey 1', date='2018-03-13', prio='Low')
+        Secound_todo = Todolist.objects.create(text='itemey 2', date='2018-02-24', prio='High')
+
+        # submit first todo
+        response = self.client.post(f'/submit_item/{first_todo.id}')
+        first_todo = Todolist.objects.all()[0]
+        self.assertEqual(first_todo.complete, True)
+
+        # unsubmit first todo
+        response = self.client.post(f'/submit_item/{first_todo.id}')
+        first_todo = Todolist.objects.all()[0]
+        self.assertEqual(first_todo.complete, False)
 
 class ItemModelTest(TestCase):
 
@@ -93,9 +115,3 @@ class ItemModelTest(TestCase):
         self.assertEqual(first_item.date, '')
         self.assertEqual(first_item.prio, '-')
 
-    def test_dont_save_blank_todo(self):
-
-        response = self.client.post('/', data={'todo_text': '', 'date_picker':'2018-02-27'})
-
-        saved_items = Todolist.objects.all()
-        self.assertEqual(saved_items.count(), 0)

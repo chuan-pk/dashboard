@@ -32,9 +32,10 @@
             <td>{{ item.date }}</td>   
             <td>{{ item.prio }}</td>
             <td>
-                
-                <button name={{item.id}} id="submit" value={{itme.id}}>Submit</button> 
-                
+                <form method="POST" action="/submit_item/{{ item.id }}">
+                    <button name={{item.id}} id="submit" onclick="submit_item({{ item.id }})">Submit</button>
+                {% csrf_token %}     
+                </form>
                 <form method="POST" action="/delete_item/{{ item.id }}">
                     <button name={{item.id}} id="delete" onclick="delete_item({{ item.id }})">Delete</button>
                 {% csrf_token %}
@@ -52,16 +53,23 @@
             <th width="10%">Priority</th> 
             <th width="10%">Button</th>
         </tr>
+        {% for item in complete %}
         <tr>
-            <td>dummy complete</td>    
-            <td>dd mm yyyy</td>   
-            <td>Low</td>
-            <td> 
-                <button name={{item.id}} id="unsubmit" value={{itme.id}}>Unsubmit</button> 
-               <button name={{item.id}} id="delete" value={{itme.id}}>Delete</button>
+            <td>{{ item.text }}</td>    
+            <td>{{ item.date }}</td>   
+            <td>{{ item.prio }}</td>
+            <td>
+                <form method="POST" action="/submit_item/{{ item.id }}">
+                    <button name={{item.id}} id="unsubmit" onclick="submit_item({{ item.id }})">Unsubmit</button>
+                {% csrf_token %}     
+                </form>
+                <form method="POST" action="/delete_item/{{ item.id }}">
+                    <button name={{item.id}} id="delete" onclick="delete_item({{ item.id }})">Delete</button>
+                {% csrf_token %}
+                </form>
             </td>
         </tr>
-
+        {% endfor %}
     </table>
 
 </html>

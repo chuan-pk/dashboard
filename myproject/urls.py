@@ -22,5 +22,6 @@ from dashboard import urls as dashboard_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', dashboard_views.home_page, name='home'),
-    url(r'^delete_item/(\d+)$', dashboard_views.delete_item, name='delete_item')
+    path('delete_item/<int:item_id>', dashboard_views.delete_item, name='delete_item'),
+    path('submit_item/<int:item_id>', dashboard_views.submit_item, name='submit_item'),
 ]

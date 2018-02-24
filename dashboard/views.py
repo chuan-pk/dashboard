@@ -13,10 +13,17 @@ def home_page(request):
             Todolist.objects.create(text=todo_text, date=todo_date, prio=todo_prio)
             return redirect('/')
     
-    todo = Todolist.objects.all()
-    return render(request, 'dashboard/home.html', {'todo': todo})
+    todo = Todolist.objects.filter(complete=False)
+    complete = Todolist.objects.filter(complete=True)
+    return render(request, 'dashboard/home.html', {'todo': todo, 'complete':complete})
 
 def delete_item(request, item_id):
     del_todo = Todolist.objects.get(id=item_id)
     del_todo.delete()
+    return redirect('/')
+
+def submit_item(request, item_id):
+    submit_todo = Todolist.objects.get(id=item_id)
+    submit_todo.complete = not(submit_todo.complete)
+    submit_todo.save()
     return redirect('/')
