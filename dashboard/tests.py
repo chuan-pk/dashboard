@@ -82,4 +82,20 @@ class ItemModelTest(TestCase):
 
         self.assertEqual(Todolist.objects.count(), 1)
 
- 
+    def test_can_save_default_value(self):
+
+        response = self.client.post('/', data={'todo_text':'itemey 1'})
+        # Todolist.objects.create(text='itemey 1') # << if use this, have to set default in models
+
+        saved_items = Todolist.objects.all()
+        first_item = saved_items[0]
+        self.assertEqual(first_item.text, 'itemey 1')
+        self.assertEqual(first_item.date, '')
+        self.assertEqual(first_item.prio, '-')
+
+    def test_dont_save_blank_todo(self):
+
+        response = self.client.post('/', data={'todo_text': '', 'date_picker':'2018-02-27'})
+
+        saved_items = Todolist.objects.all()
+        self.assertEqual(saved_items.count(), 0)
