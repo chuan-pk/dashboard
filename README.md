@@ -8,3 +8,4 @@
 * calendar
 * google classroom link
 * log in
+* thinking about application name and domain name (development codename : (todo)dashboard) 
