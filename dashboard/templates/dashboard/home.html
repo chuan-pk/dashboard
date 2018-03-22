@@ -19,6 +19,10 @@
     {% csrf_token %}
     </form>
 
+    {% autoescape off %}
+      {{ calendar }}
+    {% endautoescape %}
+
     <table id="todo_table" width="50%">
         <tr>
             <th width="10%">Text</th>    

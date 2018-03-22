@@ -5,6 +5,7 @@ from django.test import LiveServerTestCase
 import time
 from dashboard.models import Todolist
 from django.urls import resolve
+from datetime import datetime
 
 
 class ToDoListTest(LiveServerTestCase):
@@ -13,7 +14,7 @@ class ToDoListTest(LiveServerTestCase):
     # = story
     ## = programmer's comment 
     """
-
+    
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -21,7 +22,7 @@ class ToDoListTest(LiveServerTestCase):
     def tearDown(self):
         time.sleep(1)
         self.browser.quit()
-
+    
     def test_can_display_todo_list(self):
 
         # John H. Watson go to Student Dashboard web app
@@ -328,11 +329,32 @@ class ToDoListTest(LiveServerTestCase):
 
 
         self.fail('Finish the test!')
+    
+    def test_can_display_calendar(self):
+        
+        # John see calendar of this month
+        self.browser.get(self.live_server_url)
+        calendar_table = self.browser.find_element_by_name('month')
+        calendar_rows = calendar_table.find_elements_by_tag_name('tr')
+        calendar_rows_texts = [row.text for row in calendar_rows]
 
+        this_year = datetime.now().year
+        this_month = datetime.now().month
+        this_day = datetime.now().day
 
+        ## Check this day, month and years
+        self.assertTrue(
+            any(str(this_year) in i for i in  calendar_rows_texts)
+            )
+        self.assertTrue(
+            any(str(this_month) in i for i in  calendar_rows_texts)
+            )
+        self.assertTrue(
+            any(str(this_day) in i for i in  calendar_rows_texts)
+            )
 
-
-
+        self.fail('Finish the test!')
+        
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
