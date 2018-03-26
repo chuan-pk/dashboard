@@ -1,7 +1,7 @@
+from dashboard.New_calen import HTMLCalendar
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from dashboard.models import Todolist
-import calendar
 from datetime import datetime
 
 def home_page(request):
@@ -17,13 +17,11 @@ def home_page(request):
     
     todo = Todolist.objects.filter(complete=False)
     complete = Todolist.objects.filter(complete=True)
-    tc = calendar.HTMLCalendar()
+    tc = HTMLCalendar()
     year = datetime.now().year
     month = datetime.now().month
 
-    calen = tc.formatmonth(year, month, withyear=True)
-    calen = calen.replace('class="month"', 'class="month" name="month"')
-    
+    calen = tc.formatmonth(year, month)
     return render(request, 'dashboard/home.html', {'todo': todo, 'complete':complete, 'calendar':calen})
 
 def delete_item(request, item_id):

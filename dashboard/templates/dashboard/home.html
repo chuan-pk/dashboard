@@ -3,6 +3,11 @@
         <title>KMUTNB Student Dashboard</title>
     </head>
 <body>
+
+    {% autoescape off %}
+      {{ calendar }}
+    {% endautoescape %}
+
     <h1>Todo list</h1>
 
     <form method="POST">
@@ -18,10 +23,6 @@
         <button id="Add">Add</button>
     {% csrf_token %}
     </form>
-
-    {% autoescape off %}
-      {{ calendar }}
-    {% endautoescape %}
 
     <table id="todo_table" width="50%">
         <tr>

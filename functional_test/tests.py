@@ -325,10 +325,7 @@ class ToDoListTest(LiveServerTestCase):
         self.assertTrue(
             any(('Do Analog Assignment' and '2018-02-13' and 'High') in i for i in  complete_rows_texts), complete_rows_texts
             )
-
-
-
-        self.fail('Finish the test!')
+        
     
     def test_can_display_calendar(self):
         
