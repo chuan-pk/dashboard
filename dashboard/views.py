@@ -9,7 +9,7 @@ def home_page(request):
     if request.method == 'POST':
         todo_text = request.POST.get('todo_text', '')
         todo_date = request.POST.get('date_picker', '')       # send default value when user not input?
-        todo_prio = request.POST.get('priority', '-')   #
+        todo_prio = request.POST.get('priority', '-')         #
 
         if len(todo_text) > 0:
             Todolist.objects.create(text=todo_text, date=todo_date, prio=todo_prio)

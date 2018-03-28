@@ -1,0 +1,6 @@
+you can use this script to import CSV file to database/export csv file from database
+
+open terminal at the project folder
+
+>> python3 manage.py shell < CSV/<python script name>
+
